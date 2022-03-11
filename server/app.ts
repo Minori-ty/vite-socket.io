@@ -1,12 +1,32 @@
 import { Server } from 'socket.io'
 
-let a = 1
+interface ServerToClientEvents {
+    disconnected: () => void
+    response: (data: SocketData) => void
+    broadcast: (data: number) => void
+}
 
-const io = new Server({ cors: { origin: '*' } })
+interface ClientToServerEvents {
+    send: (data: { age: number }) => void
+}
+
+interface InterServerEvents {
+    ping: () => void
+}
+
+interface SocketData {
+    data: number
+}
+
+let a = 1
+const userId = []
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>({
+    cors: { origin: '*' },
+})
 
 io.on('connection', socket => {
     console.log(`connect ${socket.id}`)
-
+    userId.push(socket.id)
     //监听disconnect事件
     socket.on('disconnect', () => {
         socket.emit('disconnected')
@@ -19,11 +39,14 @@ io.on('connection', socket => {
             socket.emit('response', { data: a })
             a++
         }, 0)
+        socket.broadcast.emit('broadcast', 333)
     })
 
     socket.on('disconnect', () => {
         console.log(`disconnect ${socket.id}`)
     })
 })
-
+io.on('ping', () => {
+    console.log('有人ping了')
+})
 io.listen(4000)
