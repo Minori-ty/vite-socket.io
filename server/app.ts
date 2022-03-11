@@ -1,9 +1,10 @@
 import { Server } from 'socket.io'
 
 let a = 1
+
 const io = new Server({ cors: { origin: '*' } })
 
-io.on('connection', (socket: any) => {
+io.on('connection', socket => {
     console.log(`connect ${socket.id}`)
 
     //监听disconnect事件
@@ -12,8 +13,8 @@ io.on('connection', (socket: any) => {
         console.log('客户端离开页面')
     })
 
-    socket.on('send', (data: any) => {
-        console.log('接收到客户端的消息', data)
+    socket.on('send', (data: { age: number }) => {
+        console.log('接收到客户端的消息', data.age)
         setTimeout(() => {
             socket.emit('response', { data: a })
             a++

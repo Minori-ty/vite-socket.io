@@ -12,7 +12,8 @@
         "koa": "^2.13.4",
         "socket.io": "^4.4.1",
         "socket.io-client": "^4.4.0",
-        "vue": "^3.2.25"
+        "vue": "^3.2.25",
+        "vue-router": "^4.0.13"
     },
     "devDependencies": {
         "@types/node": "^17.0.8",
