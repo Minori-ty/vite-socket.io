@@ -23,10 +23,12 @@ socket.on('response', (data: string) => {
     console.log(data)
     message.value.push(data)
 })
+
 socket.on('broadcast', (data: string) => {
-    console.log(data)
+    console.log('接收广播')
     message.value.push(data)
 })
+
 //点击按钮，向后端发送数据
 function send() {
     socket.emit('send', { age: 17 })

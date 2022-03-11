@@ -23,4 +23,13 @@ socket.on('connect', () => {
     console.log('和服务器连接')
 })
 
+// 监听连接服务器失败事件
+socket.on('connect_error', () => {
+    ElMessage({
+        message: '连接失败!',
+        type: 'error',
+    })
+    console.log('和服务器连接')
+})
+
 export default socket
